@@ -2,10 +2,72 @@
 <html>
     <head>
         <title>Etch-a-sketch</title>
+
+        <style>
+            body {
+                background-color: rgb(204, 252, 236);
+            }
+            header {
+                display: grid;
+                justify-content: center;
+                border: 5px green solid;
+                border-radius: 10px;
+            }
+
+            .menu, .drawingBoard {
+                border: 5px green solid;
+                border-radius: 10px;
+            }
+            
+            main {
+                display: grid;
+                grid-template-columns: 1fr 3fr;
+            }
+
+            .drawingBoard {
+                display: grid;
+                background-color: blue;
+            }
+
+            .tile {
+                height: 50px;
+                width: 50px;
+                background-color: beige;
+                margin: 3px;
+            }
+            .tile:hover {
+                background-color: black;
+            }
+        </style>
     </head>
     <body>
-        
+        <header>
+            <h1>Etch-a-sketch</h1>
+        </header>
+        <main id="main">
+            <div class="menu">
+                <button type="button">Clear</button>
+                <button type="button">Magic Rainbow Pen</button>
+                <button type="button">10% Black</button>
+            </div>
+        </main>
+
+
         <script>
+            const field = document.getElementById("main");
+
+            const drawingBoard = document.createElement("div");
+            drawingBoard.classList.add("drawingBoard");
+
+            const text = document.createElement("p");
+            text.textContent = "Hello";
+
+            for(let i = 0; i < 16; i++){
+                const tile = document.createElement("div");
+                tile.classList.add("tile");
+                drawingBoard.appendChild(tile);                
+            }
+            field.appendChild(drawingBoard);
             
         </script>
     </body>
