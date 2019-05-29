@@ -23,21 +23,6 @@
                 display: grid;
                 grid-template-columns: 1fr 3fr;
             }
-
-            .drawingBoard {
-                display: grid;
-                background-color: blue;
-            }
-
-            .tile {
-                height: 50px;
-                width: 50px;
-                background-color: beige;
-                margin: 3px;
-            }
-            .tile:hover {
-                background-color: black;
-            }
         </style>
     </head>
     <body>
@@ -46,29 +31,94 @@
         </header>
         <main id="main">
             <div class="menu">
-                <button type="button">Clear</button>
-                <button type="button">Magic Rainbow Pen</button>
-                <button type="button">10% Black</button>
+                <button type="button" id="clear">Clear</button>
+                <button type="button" id="rainbow">Magic Rainbow Pen</button>
+                <button type="button" id="gray">10% Black</button>
             </div>
         </main>
 
 
         <script>
+            //Initial setup
+            let gridNumber = 16;  
+            let color = "black";
             const field = document.getElementById("main");
-
             const drawingBoard = document.createElement("div");
-            drawingBoard.classList.add("drawingBoard");
 
-            const text = document.createElement("p");
-            text.textContent = "Hello";
+            const clearBTN = document.getElementById("clear");
+            const rainbowBTN = document.getElementById("rainbow");
 
-            for(let i = 0; i < 16; i++){
-                const tile = document.createElement("div");
-                tile.classList.add("tile");
-                drawingBoard.appendChild(tile);                
-            }
-            field.appendChild(drawingBoard);
+            drawBoard();
+            drawTiles();
+
             
+            // Clear button functionality
+            clearBTN.addEventListener("click", (e) => {
+                resetTile();
+                gridNumber = prompt("How many rows do you want to see? Please enter a number.");
+                const balckCells = drawingBoard.querySelectorAll("div");
+                drawBoard();
+                drawTiles();  
+                balckCells.forEach((cell) => {
+                    cell.addEventListener("mouseover", () => {
+                    cell.style.backgroundColor = "black";
+                    });
+                });                
+            });
+
+            //Magic Rainbow Pen functionality
+            rainbowBTN.addEventListener("click", (e) => {
+                resetTile();
+                const rainbowCells = drawingBoard.querySelectorAll("div");                              
+                drawBoard();
+                drawTiles();
+                rainbowCells.forEach((cell) => {                           //This overrides the default event listener declared in the drawTiles function
+                    cell.addEventListener("mouseover", () => { 
+                    color = randomColor();
+                    cell.style.backgroundColor = `${color}`;
+                    });
+                });  
+            })
+            //Functions
+                //Create the drawing board function
+                function drawBoard(){                    
+                    drawingBoard.style.display = "grid";
+                    drawingBoard.style.gridTemplate = `repeat(${gridNumber}, 1fr) / repeat(${gridNumber}, 1fr)`;
+                    drawingBoard.style.height = "600px";
+                    drawingBoard.style.border = "5px green solid";
+                    drawingBoard.style.borderRadius = "10px";
+                }
+
+                //Create the tiles function
+                function drawTiles(){
+                    for(let i = 0; i <= gridNumber * gridNumber; i++){
+                    const tile = document.createElement("div");
+                    tile.style.height = "auto";
+                    tile.style.width = "auto";
+                    tile.style.backgroundColor = "white";
+                    tile.addEventListener("mouseover", () => {  //Changing background-color on hovering
+                    tile.style.backgroundColor = `${color}`;
+                    });
+                    drawingBoard.appendChild(tile);                
+                    }
+                    field.appendChild(drawingBoard);
+                    }
+
+                //Reset tiles function
+                function resetTile(){
+                    const tiles = drawingBoard.querySelectorAll("div");
+                    tiles.forEach((div) => {
+                    div.style.backgroundColor = "white";
+                    });
+                }
+
+                //Create a random color function and call it for each tile
+                function randomColor(){                      
+                        let red = Math.floor(Math.random() * 255);
+                        let green = Math.floor(Math.random() * 255);
+                        let blue = Math.floor(Math.random() * 255);
+                        return `rgb(${red}, ${green}, ${blue})`;
+                }
         </script>
     </body>
 </html>
