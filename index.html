@@ -1,39 +1,75 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet"> 
         <title>Etch-a-sketch</title>
-
         <style>
-            body {
-                background-color: rgb(204, 252, 236);
+            * {
+                box-sizing: border-box; 
             }
-            header {
-                display: grid;
-                justify-content: center;
-                border: 5px green solid;
-                border-radius: 10px;
+            body {
+                /*background-color: rgb(147, 247, 213);*/
+                font-family: Pacifico, cursive;
+                margin: 0;
+            }
+            div.main{
+                position: relative;
+                width: 100%;
+                height: 100%;
             }
 
-            .menu, .drawingBoard {
-                border: 5px green solid;
+            div.header {
+                position: absolute;
+                top: 0;
+                height: 20%;
+                width: 100%;
+                text-align: center;             
+                background-image: linear-gradient(to bottom right, red, yellow, green, blue);                
+            }
+
+            h1 {                
+                font-size: 50px;
+            }
+
+            .menu, .drawingBoard , .header{
+                border: 5px black solid;
                 border-radius: 10px;
             }
+            div.menu{
+               position: absolute;
+               left: 0;
+               bottom: 0;
+               width: 50%;
+               height: 80%;
+            }      
             
-            main {
+            div.drawingBoard{
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                width: 50%;
+                height: 80%;
                 display: grid;
-                grid-template-columns: 1fr 3fr;
+            }  
+
+            .tile {
+                height: auto;
+                width: auto;
+                background-color: white;
+                border: 1px solid rgb(238, 237, 237);
             }
         </style>
     </head>
-    <body>
-        <header>
-            <h1>Etch-a-sketch</h1>
-        </header>
-        <main id="main">
+    <body>        
+        <main id="main" class="main">
+            <div class="header">
+                <h1>Etch-a-sketch</h1>
+            </div>
             <div class="menu">
-                <button type="button" id="clear">Clear</button>
-                <button type="button" id="rainbow">Magic Rainbow Pen</button>
-                <button type="button" id="gray">10% Black</button>
+                <button type="button" id="clear">Clear Board</button>
+                <button type="button" id="resize">Resize Board</button>
+                <button type="button" id="rainbow">Use Magic Rainbow Pen</button>
+                <button type="button" id="gray" style="display: none">10% Black</button>
             </div>
         </main>
 
@@ -46,56 +82,70 @@
             const drawingBoard = document.createElement("div");
 
             const clearBTN = document.getElementById("clear");
+            const resizeBTN = document.getElementById("resize");
             const rainbowBTN = document.getElementById("rainbow");
+            const grayBTN = document.getElementById("gray");
 
             drawBoard();
             drawTiles();
 
+            //Buttons
             
-            // Clear button functionality
-            clearBTN.addEventListener("click", (e) => {
-                resetTile();
+            //Resize Button functionality
+            resizeBTN.addEventListener("click", (e) => {
                 gridNumber = prompt("How many rows do you want to see? Please enter a number.");
-                const balckCells = drawingBoard.querySelectorAll("div");
+                resetTile();
                 drawBoard();
-                drawTiles();  
-                balckCells.forEach((cell) => {
+                drawTiles();
+                const blackCells = drawingBoard.querySelectorAll("div");                
+                color = "black";
+                blackCells.forEach((cell) => {
                     cell.addEventListener("mouseover", () => {
-                    cell.style.backgroundColor = "black";
+                    cell.style.backgroundColor = `${color}`;
                     });
-                });                
+                });                  
+            });
+
+            // Clear button functionality            
+            clearBTN.addEventListener("click", (e) => {
+                resetTile();                           
             });
 
             //Magic Rainbow Pen functionality
             rainbowBTN.addEventListener("click", (e) => {
-                resetTile();
-                const rainbowCells = drawingBoard.querySelectorAll("div");                              
-                drawBoard();
-                drawTiles();
+                const rainbowCells = drawingBoard.querySelectorAll("div");  
                 rainbowCells.forEach((cell) => {                           //This overrides the default event listener declared in the drawTiles function
                     cell.addEventListener("mouseover", () => { 
                     color = randomColor();
                     cell.style.backgroundColor = `${color}`;
                     });
                 });  
-            })
+            });
+
+            // 10% Black button functionality
+            grayBTN.addEventListener("click", (e) => {
+                const grayCells = drawingBoard.querySelectorAll("div");                
+                grayCells.forEach((cell) => {
+                    cell.addEventListener("mouseover", () => { 
+                    let opacity = 0.1;
+                    cell.style.backgroundColor = `rgba(0, 0, 0, ${opacity}`;
+                    opacity += 0.1;
+                    });
+                });                
+            });
             //Functions
                 //Create the drawing board function
-                function drawBoard(){                    
-                    drawingBoard.style.display = "grid";
+                function drawBoard(){     
+                    drawingBoard.classList.add("drawingBoard");
                     drawingBoard.style.gridTemplate = `repeat(${gridNumber}, 1fr) / repeat(${gridNumber}, 1fr)`;
-                    drawingBoard.style.height = "600px";
-                    drawingBoard.style.border = "5px green solid";
-                    drawingBoard.style.borderRadius = "10px";
+
                 }
 
                 //Create the tiles function
                 function drawTiles(){
                     for(let i = 0; i <= gridNumber * gridNumber; i++){
                     const tile = document.createElement("div");
-                    tile.style.height = "auto";
-                    tile.style.width = "auto";
-                    tile.style.backgroundColor = "white";
+                    tile.classList.add("tile");                    
                     tile.addEventListener("mouseover", () => {  //Changing background-color on hovering
                     tile.style.backgroundColor = `${color}`;
                     });
