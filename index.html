@@ -12,6 +12,7 @@
                 font-family: Pacifico, cursive;
                 margin: 0;
                 color: rgb(88, 2, 88);
+                background-color: rgb(88, 2, 88);
             }
             div.main{
                 position: relative;
@@ -25,11 +26,12 @@
                 height: 20%;
                 width: 100%;
                 text-align: center;             
-                background-image: linear-gradient(to bottom right, red, yellow, green, blue);                
+                background-image: linear-gradient(to bottom right, red, yellow, green, blue);  
             }
 
             h1 {                
-                font-size: 50px;
+                font-size: 60px;
+                line-height: 100%;
             }
 
             .menu, #drawingBoard , .header{
@@ -42,9 +44,9 @@
                 bottom: 0;
                 width: 50%;
                 height: 80%;
-                background-image: linear-gradient(to bottom right, red, yellow, green, blue);                
-                display: grid;
-                grid-template-rows: 25% 25% 25% 25%;
+                background-image: linear-gradient(to bottom right, red, yellow, green, blue);
+                display: flex;
+                flex-direction: column;
             }      
             
             #drawingBoard{
@@ -54,6 +56,8 @@
                 width: 50%;
                 height: 80%;
                 display: grid;
+                padding: 10px;
+                background-color: black;
             }  
 
             .tile {
@@ -63,15 +67,27 @@
             }
 
             .button{
-                display: block;
                 font-size: 1.75em;
                 margin-left: 5%;
                 font-family: Pacifico, cursive;
                 border: 10px solid black;
                 border-radius: 50%;
+                width: 35%;
+                height: 50%;
+            }    
+
+            #clearDescription, #resizeDescription, #blackPenDescription, #rainbowPenDescription{
+                position: absolute;
+                top: 20%;
+                right: 10%;
                 width: 40%;
-                height: 90%;
-            }
+                padding: 15px;
+                border: 3px solid black;
+                border-radius: 10px;
+                background-color: rgb(247, 207, 247);
+                text-align: center;
+                font-size: 2em;
+            }        
         </style>
     </head>
     <body>        
@@ -79,31 +95,29 @@
             <div class="header">
                 <h1>Etch-a-sketch</h1>
             </div>
-            <div class="menu">
-                <button type="button" id="clear" class="button">Clear Board</button>
-                <button type="button" id="resize" class="button">Resize Board</button>
-                <button type="button" id="black" class="button">Black Pen</button>
-                <button type="button" id="rainbow" class="button">Magic Rainbow Pen</button>
+            <div class="menu">                
+                    <button type="button" id="clear" class="button">Clear Board</button>               
+                    <button type="button" id="resize" class="button">Resize Board</button>                   
+                    <button type="button" id="black" class="button">Black Pen</button>                   
+                    <button type="button" id="rainbow" class="button">Magic Rainbow Pen</button>
             </div>
         </main>
 
         <script>
-            //Initial setup
+        //Initial setup
             let gridNumber = 16;  
             let color = "black";
-            const field = document.getElementById("main");
-           
 
+            const field = document.getElementById("main");          
             const clearBTN = document.getElementById("clear");
             const resizeBTN = document.getElementById("resize");
             const blackBTN = document.getElementById("black");
             const rainbowBTN = document.getElementById("rainbow");
-            const grayBTN = document.getElementById("gray");
 
             drawBoard(gridNumber);
             drawTiles(gridNumber);
 
-            //Buttons
+        //Buttons
             
             // Clear button functionality            
             clearBTN.addEventListener("click", (e) => {   
@@ -112,6 +126,17 @@
                 tile.style.backgroundColor = "white";
                 });
             });
+            //Clear button description
+            clearBTN.addEventListener("mouseenter", (e) => {
+                const clearDesc = document.createElement("div");    
+                clearDesc.id = "clearDescription";                        
+                clearDesc.textContent = "The Clear Board button erases all the colored tiles from the board. It does not change the pen color.";
+                document.getElementsByClassName("menu")[0].appendChild(clearDesc);
+            });
+            clearBTN.addEventListener("mouseleave", (e) => {
+                document.getElementsByClassName("menu")[0].removeChild(document.getElementById("clearDescription"));
+            });
+
 
             //Resize Button functionality
             resizeBTN.addEventListener("click", (e) => {
@@ -120,6 +145,17 @@
                 drawBoard(gridNumber);
                 drawTiles(gridNumber);
             });
+            //Resize button description
+            resizeBTN.addEventListener("mouseenter", (e) => {
+                const resizeDesc = document.createElement("div");    
+                resizeDesc.id = "resizeDescription";                     
+                resizeDesc.textContent = "The Resize Board button deletes and resizes the board to your liking. Just enter a number.";
+                document.getElementsByClassName("menu")[0].appendChild(resizeDesc);
+            });
+            resizeBTN.addEventListener("mouseleave", (e) => {
+                document.getElementsByClassName("menu")[0].removeChild(document.getElementById("resizeDescription"));
+            });
+
 
             //Black Pen Functionality
             blackBTN.addEventListener("click", (e) => {
@@ -131,6 +167,16 @@
                     });
                 });  
             });
+            //Black pen description
+            blackBTN.addEventListener("mouseenter", (e) => {
+                const blackPenDesc = document.createElement("div");    
+                blackPenDesc.id = "blackPenDescription";                    
+                blackPenDesc.textContent = "The Balck Pen button changes the filling color to black.";
+                document.getElementsByClassName("menu")[0].appendChild(blackPenDesc);
+            });
+            blackBTN.addEventListener("mouseleave", (e) => {
+                document.getElementsByClassName("menu")[0].removeChild(document.getElementById("blackPenDescription"));
+            });
 
             //Magic Rainbow Pen functionality
             rainbowBTN.addEventListener("click", (e) => {
@@ -141,6 +187,16 @@
                     cell.style.backgroundColor = `${color2}`;
                     });
                 });  
+            });
+            //Rainbow pen description
+            rainbowBTN.addEventListener("mouseenter", (e) => {
+                const rainbowPenDesc = document.createElement("div");    
+                rainbowPenDesc.id = "rainbowPenDescription";                    
+                rainbowPenDesc.textContent = "The Magic Rainbow Pen button changes the filling color to random. Try it out, it's magical!";
+                document.getElementsByClassName("menu")[0].appendChild(rainbowPenDesc);
+            });
+            rainbowBTN.addEventListener("mouseleave", (e) => {
+                document.getElementsByClassName("menu")[0].removeChild(document.getElementById("rainbowPenDescription"));
             });
 
             //Functions
