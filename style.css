@@ -1,0 +1,84 @@
+* {
+    box-sizing: border-box; 
+}
+body {
+    /*background-color: rgb(147, 247, 213);*/
+    font-family: Pacifico, cursive;
+    margin: 0;
+    color: rgb(88, 2, 88);
+    background-color: rgb(88, 2, 88);
+}
+div.main{
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+div.header {
+    position: absolute;
+    top: 0;
+    height: 20%;
+    width: 100%;
+    text-align: center;             
+    background-image: linear-gradient(to bottom right, red, yellow, green, blue);  
+}
+
+h1 {                
+    font-size: 60px;
+    line-height: 100%;
+}
+
+.menu, #drawingBoard , .header{
+    border: 5px black solid;
+    border-radius: 10px;
+}
+.menu{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 50%;
+    height: 80%;
+    background-image: linear-gradient(to bottom right, red, yellow, green, blue);
+    display: flex;
+    flex-direction: column;
+}      
+
+#drawingBoard{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 50%;
+    height: 80%;
+    display: grid;
+    padding: 10px;
+    background-color: black;
+}  
+
+.tile {
+    float: left;
+    background-color: white;
+    border: 1px solid rgb(238, 237, 237);
+}
+
+.button{
+    font-size: 1.75em;
+    margin-left: 5%;
+    font-family: Pacifico, cursive;
+    border: 10px solid black;
+    border-radius: 50%;
+    width: 35%;
+    height: 50%;
+}    
+
+#clearDescription, #resizeDescription, #blackPenDescription, #rainbowPenDescription, #grayPenDescription{
+    position: absolute;
+    top: 20%;
+    right: 10%;
+    width: 40%;
+    padding: 15px;
+    border: 3px solid black;
+    border-radius: 10px;
+    background-color: rgb(247, 207, 247);
+    text-align: center;
+    font-size: 2em;
+}  
